@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import java.util.Random;
+
 public class MyThread extends Thread {
 
     // константа для интерполяции
@@ -40,6 +42,23 @@ public class MyThread extends Thread {
 
     @Override
     public void run() {
+        Canvas canvas;
+        startTime = getTime();
+        while(flag) {
+            long currTime = getTime();
+            long elapsedTime = currTime - buffRedrawTime;
+            if(elapsedTime < 50000) {
+                continue;
+            }
+            // логика SurfaceView
+            canvas = holder.lockCanvas();
+            // рисуем
+            doDraw(canvas);
+            // показываем
+            holder.unlockCanvasAndPost(canvas);
+            
+            buffRedrawTime = getTime();
+        }
 
     }
 
@@ -55,7 +74,9 @@ public class MyThread extends Thread {
         long currentTime = getTime();
         float fraction = (float)(currentTime%FRACTION_TIME)/FRACTION_TIME; // от 0 до 1
         Log.d("RRR fraction=",Float.toString(fraction));
+        //Random r = new Random();
         int color = (int)argbEvaluator.evaluate(fraction, Color.BLACK, Color.RED);
+        //Color.rgb(r.nextInt(255),r.nextInt(255),r.nextInt(255));
         Log.d("RRR color=",Integer.toString(color));
         paint.setColor(color);
         canvas.drawCircle(centerX,centerY,maxRadius*fraction,paint);
