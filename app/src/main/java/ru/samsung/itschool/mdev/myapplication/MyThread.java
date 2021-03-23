@@ -22,7 +22,14 @@ public class MyThread extends Thread {
     private long startTime;
     private long buffRedrawTime;
 
-    
+    MyThread(SurfaceHolder h) {
+        this.flag = false;
+        this.holder = h;
+        this.paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.FILL);
+        argbEvaluator = new ArgbEvaluator();
+    }
 
 
 
