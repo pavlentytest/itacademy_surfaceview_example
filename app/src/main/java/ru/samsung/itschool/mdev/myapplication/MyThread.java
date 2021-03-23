@@ -47,7 +47,7 @@ public class MyThread extends Thread {
         while(flag) {
             long currTime = getTime();
             long elapsedTime = currTime - buffRedrawTime;
-            if(elapsedTime < 50000) {
+            if(elapsedTime < 500000) {
                 continue;
             }
             // логика SurfaceView
@@ -56,7 +56,6 @@ public class MyThread extends Thread {
             doDraw(canvas);
             // показываем
             holder.unlockCanvasAndPost(canvas);
-            
             buffRedrawTime = getTime();
         }
 
